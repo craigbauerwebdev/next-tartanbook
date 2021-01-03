@@ -1,0 +1,22 @@
+@import "variables.scss";
+
+header {
+	nav {
+		position: absolute;
+		top: 50%;
+		right: 30px;
+		width: 700px;
+		transform: translateY(-50%);
+		
+		ul {
+			display: flex;
+			flex-wrap: wrap;
+			list-style: none;
+			justify-content: end;
+			
+			li {
+				margin-left: 20px;
+			}
+		}
+	}
+}
