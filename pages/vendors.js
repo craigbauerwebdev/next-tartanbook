@@ -1,32 +1,57 @@
+import React from "react";
+import nookies from "nookies";
+import {verifyIdToken} from "../components/Auth/firebaseAdmin";
+import firebaseClient from "../components/Auth/firebaseClient";
+//import firebase from "firebase/app";
+import "firebase/auth"; //for sign out
+import { useAuth } from "../components/Auth/Auth";
+import VendorCard from '../components/VendorCard';
 import useSWR from 'swr';
-import withPrivateRoute from '../components/withPrivateRoute';
-//import {useAuth} from "../Auth/Auth"
-import { useAuth } from "../components/Auth/Auth"; //don't really need it here//
-import RecipeCard from '../components/RecipeCard'
+//import secrets from "../components/Auth/secrets";
 
 const fetcher = (url) => fetch(url).then((res) => res.json())
+function Vendors({session}) {
+    const { user } = useAuth();
+    console.log(user);
+    const { data, error } = useSWR('/api/vendors', fetcher);
 
-const Vendors = () => {
-  const { user } = useAuth();
-  console.log(user);
-  const { data, error } = useSWR('/api/vendors', fetcher);
+    if (error) return <div>Failed to load</div>
+    if (!data) return <div>Loading...</div>
 
-  if (error) return <div>Failed to load</div>
-  if (!data) return <div>Loading...</div>
+    firebaseClient();
 
-  return (
-    <>
-      <h1>Test VAR: {process.env.NEXT_PUBLIC_FIREBASE_KEY}</h1>
-      {user ? user.uid : "No user logged in"}
-      <ul>
-        {data.map((r, i) => {
-          return <RecipeCard key={i} recipe={r} />
-          //return <h1>{p.title.rendered}</h1>
-        })}
-      </ul>
-    </>
-  )
+    if(session) {
+        return (
+            <ul>
+                {data.map((r, i) => {
+                    return <VendorCard key={i} recipe={r} />
+                    //return <h1>{p.title.rendered}</h1>
+                })}
+            </ul>
+        );
+    } else {
+        return <h3>Loading...</h3>
+    }
+};
+
+export async function getServerSideProps(context) {
+    console.log("getting server side props");
+    try {
+        //console.log("tried");
+        const cookies = nookies.get(context);
+        const token = await verifyIdToken(cookies.token);
+        const {uid, email} = token;
+        return {
+            props: {session: `Email: ${email} IUD: ${uid}`}
+        }
+    } catch (err) {
+        //console.log("err: ", err);
+        context.res.writeHead(302, {location: "/login"});
+        context.res.end();
+        return (
+            { props: [] }
+        )
+    }
 }
 
-export default withPrivateRoute (Vendors);
-//export default Vendors;
+export default Vendors;

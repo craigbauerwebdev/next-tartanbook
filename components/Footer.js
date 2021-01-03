@@ -13,7 +13,7 @@ const Footer = ({children})=> {
                 onClick={
                     async () => {
                         await firebase.auth().signOut();
-                        router.push('/authenticated');
+                        router.push('/login');
                     }  
                 }
             >

@@ -10,7 +10,7 @@ $tartan-pink: pink;
   @else if $point == mobile {
     @media only screen and  (max-width: 550px) { @content; }
   }
- /*  @else if $point == baby-bear {
+ /*  @else if $point == babybear {
     @media (max-width: 600px)  { @content; }
   } */
 }

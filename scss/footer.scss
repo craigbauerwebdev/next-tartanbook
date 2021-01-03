@@ -1,5 +1,11 @@
+@import "variables";
+
 footer {
 	padding: 30px;
-	background: #000;
-	color: #fff;
+	background: $tartan-blue;
+	color: $white;
+
+	p {
+		color: $white;
+	}
 }

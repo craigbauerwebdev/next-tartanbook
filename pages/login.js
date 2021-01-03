@@ -10,8 +10,7 @@ export default function login() {
     const [email, setEmail] = useState("");
     const [pass, setPass] = useState("");
     const router = useRouter();
-//onSubmit={handleLogin}>
-//createUserWithEmailAndPassword
+
     return (
         <div className="login-page">
             <div className="form-wrap">
@@ -25,31 +24,19 @@ export default function login() {
                     Password
                 </label>
                 <input value={pass} onChange={(e) => setPass(e.target.value)} name="password" type="password" placeholder="Password" />
-
                 <button 
                     onClick={async () => {
-
                         await firebase.auth().signInWithEmailAndPassword(email, pass)
                         .then(() => {
-                            router.push('/authenticated');   
+                            router.push('/vendors');   
                         })
                         .catch((error) => {
-                            //const message = error.message;
                             console.log(error.message);
                         })
                     }}
                 >
                     Log In
                 </button>
-                {/* <button
-                    onClick={
-                        async () => {
-                            await firebase.auth().signOut();
-                        }
-                    }
-                >
-                    Signout
-                </button> */}
             </div>
         </div>
     )
