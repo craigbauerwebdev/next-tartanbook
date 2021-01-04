@@ -2,7 +2,7 @@ import useSWR from 'swr';
 //import withPrivateRoute from '../components/withPrivateRoute';
 //import {useAuth} from "../Auth/Auth"
 import { useAuth } from "../components/Auth/Auth"; //don't really need it here//
-import RecipeCard from '../components/RecipeCard';
+import RecipeCard from '../components/VendorCard';
 
 const fetcher = (url) => fetch(url).then((res) => res.json())
 

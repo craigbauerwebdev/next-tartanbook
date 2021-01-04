@@ -1,0 +1,45 @@
+@import "variables";
+
+.vendor {
+	position: relative;
+	color: $white;
+	background: rgba(64, 84, 100, .8);
+	padding: 15px;
+    margin-bottom: 30px;
+    list-style: none;
+	h2 {
+		width: calc(100% - 60px)
+	}
+	.image-container {
+		float: left;
+		width: 30%;
+		padding-top: 25%;
+		overflow: hidden;
+	}
+	.meta {
+		float: right;
+		width: calc(70% - 30px);
+	}
+	.meta {
+        margin-bottom: 10px;
+        p {
+            font-size: 14px;
+            margin-top: 10px;
+            color: $white;
+        }
+		&.links {
+			img {
+				margin-right: 20px;
+			}
+		}
+	}
+	.like-btn {
+		position: absolute;
+		top: 15px;
+		right:15px;
+		i {
+			font-size: 40px;
+			color: pink;
+		}
+	}
+}
