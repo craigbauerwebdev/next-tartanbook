@@ -14,8 +14,6 @@ export default function VendorCard({ vendor }) {
   return (
     <li className="vendor clearfix">
       {/* <Link href="/recipes/[id]" as={`/recipes/${recipe.id}`}> */}
-        {console.log(vendor)}
-      
           {/* <h1 dangerouslySetInnerHTML={{ __html: vendor.title.rendered}} />
           <img src={vendor.fimg_url} width="300px" /> */}
           <div className="image-container" style={imgStyle}></div>

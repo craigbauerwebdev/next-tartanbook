@@ -2,32 +2,29 @@
 //import Link from "next/link";
 
 
-const VendorFilters = ({})=> {
-    // expected props
-    // sortBy (function)
+const VendorFilters = ({sortBy, type, location, vendorFilters, locationFilters})=> {
     return (
-        <div className="filters">
-            <h3>Vendor Filters Component</h3>
-            
-            {/* <div className="row">
+        <div className="filters">            
+            <div className="row">
                 <div className="col">
-                    <select value={vendorType} onChange={(e) => sortBy(e, "vendorType")} className="form-control">
+                    <select value={type} onChange={(e) => sortBy(e, "vendorType")} className="form-control">
                         <option value="AllVendors">All Vendors</option>
-                        {vendorFilters.map((ven) => {
-                            //console.log(ven);
-                            return <option key={ven} value={ven}>{ven}</option>
+                        {vendorFilters.map((vendor) => {
+                            return <option key={vendor} value={vendor}>{vendor}</option>
                         })}
                     </select>
                 </div>
                 <div className="col">
                     <select value={location} onChange={(e) => sortBy(e, "location")} className="form-control">
                         <option value="AllLocations">All Locations</option>
-                        {locationFilters.map((loc) => {
-                            //console.log(loc);
-                            return <option key={loc} value={loc}>{loc}</option>
+                        {locationFilters.map((location) => {
+                            return <option key={location} value={location}>{location}</option>
                         })}
                     </select>
                 </div>
+            </div>
+            {/* <div className="row">
+                <input type="text" />
             </div> */}
         </div>
     );
