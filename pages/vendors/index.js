@@ -19,6 +19,7 @@ function Vendors({session}) {
     const [sortedVendors, setSortedVendors] = useState(null);
     const [type, setType] = useState("AllVendors");
     const [location, setLocation] = useState("AllLocations");
+    const [searchTerm, setSearchTerm] = useState(null);
 
     useEffect(() => {
         if(data) {
@@ -54,6 +55,28 @@ function Vendors({session}) {
         }
     }, [type, location, data]);
 
+    useEffect(() => {
+        console.log("search triggered");
+        if (searchTerm) {
+            console.log("search term existis");
+            console.log("ST");
+            setSortedVendors(
+                //sortedVendors ?
+                    data.filter(s => {
+                        console.log(s);
+                        return (
+                            s.title.rendered.includes(searchTerm)
+                            // (v.vendor_type === obj.vendor || obj.vendor === "AllVendors") &&
+                            // (v.location === obj.location || obj.location === "AllLocations")
+                        );
+                    })
+                //:  sortedVendors
+            )
+        } else {
+            setSortedVendors(data);
+        }
+    }, [searchTerm]);
+
     if (error) return <div>Failed to load</div>
     if (!data || !type || !locations) return <div>Loading...</div>
 
@@ -62,6 +85,8 @@ function Vendors({session}) {
             setType(e.target.value);
         } else if (sortType === "location") {
             setLocation(e.target.value);
+        } else if (sortType === "search") {
+            setSearchTerm(e.target.value);
         }
     }
 

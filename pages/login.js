@@ -11,6 +11,9 @@ export default function login() {
     const [pass, setPass] = useState("");
     const router = useRouter();
 
+    //get user
+    // if session exists redirect to Welcome/index
+
     return (
         <div className="login-page">
             <div className="form-wrap">
@@ -31,7 +34,7 @@ export default function login() {
                             router.push('/vendors');   
                         })
                         .catch((error) => {
-                            console.log(error.message);
+                            //console.log(error.message);
                         })
                     }}
                 >
