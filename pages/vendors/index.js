@@ -4,15 +4,15 @@ import {verifyIdToken} from "../../components/Auth/firebaseAdmin";
 import firebaseClient from "../../components/Auth/firebaseClient";
 //import firebase from "firebase/app";
 import "firebase/auth";
-import { useAuth } from "../../components/Auth/Auth";
+//import { useAuth } from "../../components/Auth/Auth";
 import VendorCard from '../../components/VendorCard';
 import useSWR from 'swr';
 import VendorFilters from "../../components/VendorFilters";
 
-const fetcher = (url) => fetch(url).then((res) => res.json())
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
 function Vendors({session}) {
-    const { user } = useAuth();
-    console.log(user);
+    //const { user } = useAuth();
     const { data, error } = useSWR('/api/vendors', fetcher);
     const [types, setVendorTypes] = useState(null);
     const [locations, setLocationTypes] = useState(null);
@@ -20,6 +20,9 @@ function Vendors({session}) {
     const [type, setType] = useState("AllVendors");
     const [location, setLocation] = useState("AllLocations");
     const [searchTerm, setSearchTerm] = useState(null);
+    const [startIndex, setStartIndex] = useState(0);
+    const [endIndex, setEndIndex] = useState(10);
+    const [totalVendors, setTotalVendors] = useState(null);
 
     useEffect(() => {
         if(data) {
@@ -37,49 +40,37 @@ function Vendors({session}) {
             })
             setVendorTypes([...new Set(vendorTypes)])
             setLocationTypes([...new Set(locations)])
+
+            setTotalVendors(data.length)
         }
     }, [data]);
 
     useEffect(() => {
+        //console.log("filters triggered");
         if(data) {
             const
                 obj = { vendor: type, location: location };
             setSortedVendors(
                 data.filter(v => {
+                    const title = v.title.rendered.toLowerCase();
+                    //console.log("Search term exists");
                     return (
-                        (v.vendor_type === obj.vendor || obj.vendor === "AllVendors") &&
-                        (v.location === obj.location || obj.location === "AllLocations")
+                        (v.vendor_type.toLowerCase() === obj.vendor.toLowerCase() || obj.vendor === "AllVendors") &&
+                        (v.location.toLowerCase() === obj.location.toLowerCase() || obj.location === "AllLocations") &&
+                        (searchTerm ? title.includes(searchTerm.toLowerCase()) : title)
                     );
-                })
+                }).slice(startIndex, endIndex)
             )
         }
-    }, [type, location, data]);
+    }, [type, location, data, searchTerm]);
 
-    useEffect(() => {
-        console.log("search triggered");
-        if (searchTerm) {
-            console.log("search term existis");
-            console.log("ST");
-            setSortedVendors(
-                //sortedVendors ?
-                    data.filter(s => {
-                        console.log(s);
-                        return (
-                            s.title.rendered.includes(searchTerm)
-                            // (v.vendor_type === obj.vendor || obj.vendor === "AllVendors") &&
-                            // (v.location === obj.location || obj.location === "AllLocations")
-                        );
-                    })
-                //:  sortedVendors
-            )
-        } else {
-            setSortedVendors(data);
-        }
-    }, [searchTerm]);
 
     if (error) return <div>Failed to load</div>
     if (!data || !type || !locations) return <div>Loading...</div>
 
+    console.table("TotalVendors: ", totalVendors)
+
+    // sets filter state on parent component
     const sortBy = (e, sortType) => {
         if (sortType === "vendorType") {
             setType(e.target.value);
@@ -117,7 +108,7 @@ export async function getServerSideProps(context) {
             props: {session: `Email: ${email} IUD: ${uid}`}
         }
     } catch (err) {
-        context.res.writeHead(302, {location: "/login"});
+        context.res.writeHead(302, {location: "/"}); //login
         context.res.end();
         return (
             { props: [] }

@@ -1,7 +1,6 @@
 //import Head from 'next/head';
 //import Link from "next/link";
 
-
 const VendorFilters = ({sortBy, type, location, vendorFilters, locationFilters, placeholderText})=> {
     return (
         <div className="filters"> 
@@ -34,7 +33,8 @@ const VendorFilters = ({sortBy, type, location, vendorFilters, locationFilters, 
                                         key={location} 
                                         value={location}>
                                             {location}
-                                    </option>)
+                                    </option>
+                                )
                             })}
                         </select>
                     </div>
@@ -42,7 +42,7 @@ const VendorFilters = ({sortBy, type, location, vendorFilters, locationFilters, 
             </div>
             <div className="active-pink-4 mb-4">
                 <input 
-                    class="form-control"
+                    className="form-control"
                     type="text"
                     placeholder="Search by Type or Location"
                     onChange={(e) => sortBy(e, "search")}

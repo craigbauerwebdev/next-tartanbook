@@ -34,7 +34,7 @@ export default function login() {
                             router.push('/vendors');   
                         })
                         .catch((error) => {
-                            //console.log(error.message);
+                            console.error(error.message);
                         })
                     }}
                 >

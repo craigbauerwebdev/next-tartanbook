@@ -17,5 +17,8 @@
     "sass": "^1.29.0",
     "swr": "0.1.18"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^7.18.0"
+  }
 }
