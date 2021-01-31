@@ -38,37 +38,54 @@ function Vendors({session}) {
                 }
                 return null;
             })
-            setVendorTypes([...new Set(vendorTypes)])
-            setLocationTypes([...new Set(locations)])
+            setVendorTypes([...new Set(vendorTypes)]);
+            setLocationTypes([...new Set(locations)]);
 
-            setTotalVendors(data.length)
+            setTotalVendors(data.length);
         }
     }, [data]);
 
     useEffect(() => {
-        //console.log("filters triggered");
+        setEndIndex(10);
+    }, [type, location, searchTerm]);
+
+    useEffect(() => {
         if(data) {
             const
                 obj = { vendor: type, location: location };
             setSortedVendors(
                 data.filter(v => {
                     const title = v.title.rendered.toLowerCase();
-                    //console.log("Search term exists");
                     return (
                         (v.vendor_type.toLowerCase() === obj.vendor.toLowerCase() || obj.vendor === "AllVendors") &&
                         (v.location.toLowerCase() === obj.location.toLowerCase() || obj.location === "AllLocations") &&
                         (searchTerm ? title.includes(searchTerm.toLowerCase()) : title)
                     );
-                }).slice(startIndex, endIndex)
+                })
             )
         }
-    }, [type, location, data, searchTerm]);
+    }, [type, location, data, searchTerm, endIndex, setEndIndex]);
 
+    const loadMoreItems = () => {
+        console.log("loading 10 more items");
+        setEndIndex(endIndex + 10)
+    }
 
     if (error) return <div>Failed to load</div>
-    if (!data || !type || !locations) return <div>Loading...</div>
-
-    console.table("TotalVendors: ", totalVendors)
+    if (!data || !type || !locations) {
+        return (
+            <div>
+                <div className="loading-screen">
+                    <div className="loader-wrap center">
+                        <div className="loader"></div>
+                        <p>Just a second</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    console.log("EndIndex: ", endIndex, "Sorted Vendors", sortedVendors.length);
+    //console.table("TotalVendors: ", totalVendors)
 
     // sets filter state on parent component
     const sortBy = (e, sortType) => {
@@ -82,16 +99,30 @@ function Vendors({session}) {
     }
 
     firebaseClient();
-
+    console.log(session);
     if(session) {
         return (
             <Fragment>
                 <VendorFilters sortBy={sortBy} type={type} location={location} vendorFilters={types} locationFilters={locations} />
-                <ul>
-                    {sortedVendors.map((vendor, i) => {
-                        return <VendorCard key={i} vendor={vendor} />
-                    })}
-                </ul>
+                {sortedVendors &&
+                    <ul>
+                        {sortedVendors.map((vendor, i) => {
+                            return <VendorCard key={i} vendor={vendor} />
+                        }).slice(startIndex, endIndex)}
+                    </ul>
+                }
+                {!sortedVendors.length &&
+                    <p>No Vendors Match your search</p>
+                }
+                {endIndex < sortedVendors.length &&
+                    <div className="load-more-items">
+                        <button
+                            onClick={loadMoreItems}
+                        >
+                            load more vendors
+                        </button>
+                    </div>
+                }
             </Fragment>
         );
     } else {
@@ -108,7 +139,7 @@ export async function getServerSideProps(context) {
             props: {session: `Email: ${email} IUD: ${uid}`}
         }
     } catch (err) {
-        context.res.writeHead(302, {location: "/"}); //login
+        context.res.writeHead(302, {location: "/login"}); //login //change to welcome page
         context.res.end();
         return (
             { props: [] }

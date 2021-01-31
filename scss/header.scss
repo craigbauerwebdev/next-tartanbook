@@ -7,6 +7,9 @@ header {
     top: 0;
     padding: 10px 20px 5px 20px;
     z-index: 9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     h1 {
         font-size: 36px;
         font-family: 'Roboto Slab', serif;
@@ -22,24 +25,21 @@ header {
             max-width: 315px;
         }
     }
-    nav {
-        margin: 0 auto;
-        position: absolute;
-        top: 50%;
-        right: 20px;
-        transform: translateY(-50%);
+ /*    nav {
+        
+        //display: flex;
         li {
-            float: left;
+            //float: left;
             list-style: none;
-            padding-left: 45px;
-            font-size: 18px;
+            padding-left: 35px;
+            font-size: 16px;
             font-weight: 700;
-            color: #fff;
+            color: $white;
         }
         @include bp(tablet) {
             display: none;
         }
-    }
+    } */
     .mobile-menu-icon {
         display: none;
         color: $white;

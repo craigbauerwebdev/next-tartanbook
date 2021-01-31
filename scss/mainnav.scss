@@ -2,25 +2,41 @@
 
 header {
 	nav {
-		position: absolute;
+		/* position: absolute;
 		top: 50%;
 		right: 30px;
 		width: 700px;
-		transform: translateY(-50%);
-		
+		transform: translateY(-50%); */
+		display: flex;
 		ul {
 			display: flex;
 			flex-wrap: wrap;
 			list-style: none;
 			justify-content: end;
+			align-items: center;
+			margin: 0 0 5px;
 			
 			li {
-				margin-left: 20px;
+				margin-left: 35px;
+				list-style: none;
+				//padding-left: 35px;
+				font-size: 16px;
+				font-weight: 700;
+				color: #fff;
 
 				a {
 					color: $white;
 					text-decoration: none;
+
+					&:hover {
+						color: $tartan-pink;
+						text-decoration: none;
+					}
 				}
+			}
+
+			@include bp(tablet) {
+				display: none;
 			}
 		}
 	}
