@@ -139,7 +139,7 @@ export async function getServerSideProps(context) {
             props: {session: `Email: ${email} IUD: ${uid}`}
         }
     } catch (err) {
-        context.res.writeHead(302, {location: "/"}); //login //change to welcome page
+        //context.res.writeHead(302, {location: "/"}); //login //change to welcome page
         context.res.end();
         return (
             { props: [] }
