@@ -4,6 +4,8 @@
 //const fetcher = (url) => fetch(url).then((res) => res.json())
 
 export default function Index() {
+
+  console.log("Home PAGE");
   /* const { data, error } = useSWR('/api/recipes', fetcher);
 
   console.log(error);
