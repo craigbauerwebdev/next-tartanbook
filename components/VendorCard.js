@@ -6,7 +6,7 @@ export default function VendorCard({ vendor }) {
 
   const imgStyle = {
     backgroundImage: vendor.fimg_url ? `url("${vendor.fimg_url}")`
-      : "url(http://tartanweddings.com/wp-content/uploads/2018/11/dundas-events-page.jpg)",
+      : "url(https://cors-anywhere.herokuapp.com/http://tartanweddings.com/wp-content/uploads/2018/11/dundas-events-page.jpg)",
     backgroundSize: "cover",
     backgroundPosition: "top"
   }
