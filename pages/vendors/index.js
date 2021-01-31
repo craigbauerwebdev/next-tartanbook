@@ -1,9 +1,9 @@
 import React, { Fragment, useState, useEffect } from "react";
 import nookies from "nookies";
-import {verifyIdToken} from "../../components/Auth/firebaseAdmin";
+/* import {verifyIdToken} from "../../components/Auth/firebaseAdmin";
 import firebaseClient from "../../components/Auth/firebaseClient";
 //import firebase from "firebase/app";
-import "firebase/auth";
+import "firebase/auth"; */
 //import { useAuth } from "../../components/Auth/Auth";
 import VendorCard from '../../components/VendorCard';
 import useSWR from 'swr';
@@ -98,8 +98,10 @@ function Vendors({session}) {
         }
     }
 
-    firebaseClient();
+    //firebaseClient();
+    
     //console.log(session);
+    session = true;
     if(session) {
         return (
             <Fragment>
@@ -130,7 +132,7 @@ function Vendors({session}) {
     }
 };
 
-export async function getServerSideProps(context) {
+/* export async function getServerSideProps(context) {
     try {
         const cookies = nookies.get(context);
         const token = await verifyIdToken(cookies.token);
@@ -146,5 +148,5 @@ export async function getServerSideProps(context) {
         )
     }
 }
-
+ */
 export default Vendors;
