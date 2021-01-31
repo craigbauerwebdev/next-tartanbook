@@ -5,8 +5,8 @@ import {vendorNameMap} from "../util/vendorNameMap";
 export default function VendorCard({ vendor }) {
 
   const imgStyle = {
-    backgroundImage: vendor.fimg_url ? `url("${vendor.fimg_url}")`
-      : "url(https://cors-anywhere.herokuapp.com/http://tartanweddings.com/wp-content/uploads/2018/11/dundas-events-page.jpg)",
+    backgroundImage: vendor.fimg_url ? `url("${vendor.fimg_url}")` //https://cors-anywhere.herokuapp.com/
+      : "url(http://tartanweddings.com/wp-content/uploads/2018/11/dundas-events-page.jpg)",
     backgroundSize: "cover",
     backgroundPosition: "top"
   }

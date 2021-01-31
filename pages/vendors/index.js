@@ -1,10 +1,10 @@
 import React, { Fragment, useState, useEffect } from "react";
 import nookies from "nookies";
-/* import {verifyIdToken} from "../../components/Auth/firebaseAdmin";
+import {verifyIdToken} from "../../components/Auth/firebaseAdmin";
 import firebaseClient from "../../components/Auth/firebaseClient";
 //import firebase from "firebase/app";
-import "firebase/auth"; */
-//import { useAuth } from "../../components/Auth/Auth";
+import "firebase/auth";
+import { useAuth } from "../../components/Auth/Auth";
 import VendorCard from '../../components/VendorCard';
 import useSWR from 'swr';
 import VendorFilters from "../../components/VendorFilters";
@@ -12,7 +12,7 @@ import VendorFilters from "../../components/VendorFilters";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 function Vendors({session}) {
-    //const { user } = useAuth();
+    const { user } = useAuth();
     const { data, error } = useSWR('/api/vendors', fetcher);
     const [types, setVendorTypes] = useState(null);
     const [locations, setLocationTypes] = useState(null);
@@ -84,7 +84,7 @@ function Vendors({session}) {
             </div>
         );
     }
-    console.log("EndIndex: ", endIndex, "Sorted Vendors", sortedVendors.length);
+    //console.log("EndIndex: ", endIndex, "Sorted Vendors", sortedVendors.length);
     //console.table("TotalVendors: ", totalVendors)
 
     // sets filter state on parent component
@@ -98,11 +98,10 @@ function Vendors({session}) {
         }
     }
 
-    //firebaseClient();
-    
-    //console.log(session);
-    session = true;
-    if(session) {
+    firebaseClient();
+
+    //if(session) {
+    if (user) {
         return (
             <Fragment>
                 <VendorFilters sortBy={sortBy} type={type} location={location} vendorFilters={types} locationFilters={locations} />
@@ -132,8 +131,9 @@ function Vendors({session}) {
     }
 };
 
-/* export async function getServerSideProps(context) {
+export async function getServerSideProps(context) {
     try {
+        console.log("get serverside props try block");
         const cookies = nookies.get(context);
         const token = await verifyIdToken(cookies.token);
         const {uid, email} = token;
@@ -141,12 +141,13 @@ function Vendors({session}) {
             props: {session: `Email: ${email} IUD: ${uid}`}
         }
     } catch (err) {
-        //context.res.writeHead(302, {location: "/"}); //login //change to welcome page
+        console.log("get serverside props err block");
+        context.res.writeHead(302, {location: "/login"}); //login //change to welcome page
         context.res.end();
         return (
             { props: [] }
         )
     }
 }
- */
+
 export default Vendors;
