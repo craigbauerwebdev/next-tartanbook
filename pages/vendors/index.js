@@ -84,7 +84,7 @@ function Vendors({session}) {
             </div>
         );
     }
-    //console.log("EndIndex: ", endIndex, "Sorted Vendors", sortedVendors.length);
+    console.log("EndIndex: ", endIndex, "Sorted Vendors", sortedVendors.length);
     //console.table("TotalVendors: ", totalVendors)
 
     // sets filter state on parent component
@@ -100,8 +100,8 @@ function Vendors({session}) {
 
     firebaseClient();
 
-    //if(session) {
-    if (user) {
+    if(session) {
+    //if (user) {
         return (
             <Fragment>
                 <VendorFilters sortBy={sortBy} type={type} location={location} vendorFilters={types} locationFilters={locations} />
@@ -132,11 +132,18 @@ function Vendors({session}) {
 };
 
 export async function getServerSideProps(context) {
+    /* const email = "craigbauer23@gmail.com";
+    const uid = "123456789";
+    console.log(email, uid);
+    return {
+        props: { session: `Email: ${email} IUD: ${uid}` }
+    } */
     try {
         console.log("get serverside props try block");
         const cookies = nookies.get(context);
         const token = await verifyIdToken(cookies.token);
         const {uid, email} = token;
+        console.log("Token: ", token);
         return {
             props: {session: `Email: ${email} IUD: ${uid}`}
         }
