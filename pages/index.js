@@ -1,16 +1,35 @@
 //import useSWR from 'swr'
 //import RecipeCard from '../components/RecipeCard'
-
+import React, {useState, useEffect} from "react";
 //const fetcher = (url) => fetch(url).then((res) => res.json())
 
 export default function Index() {
 
   console.log("Home PAGE");
+  //const [wrapper, setWrapper] = useState("td");
   /* const { data, error } = useSWR('/api/recipes', fetcher);
 
   console.log(error);
   if (error) return <div>Failed to load</div>
   if (!data) return <div>Loading...</div> */
+
+  /* useEffect(() => {
+    setWrapper("td");
+  }, []);
+
+  const returnJSX = () => {
+    const headTager = "td";
+    //if (head) return <th key="uuidv4">hello</th>;
+    
+    //return  <wrapper key = "uuidv4" > hello / bye </wrapper>;
+    return (
+      React.createElement(
+        head ? "td" : "th",
+        { key: 'yes' },
+        {<div className="some-class">some content</div>}
+      )
+    )
+  } */
 
   return (
     <>

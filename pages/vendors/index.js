@@ -131,17 +131,11 @@ function Vendors({session}) {
 };
 
 export async function getServerSideProps(context) {
-    /* const email = "craigbauer23@gmail.com";
-    const uid = "123456789";
-    console.log(email, uid);
-    return {
-        props: { session: `Email: ${email} IUD: ${uid}` }
-    } */
     try {
         console.log("get serverside props try block");
         const cookies = nookies.get(context);
         const token = await verifyIdToken(cookies.token);
-        console.log(token);
+        //console.log(token);
         const {uid, email} = token;
         console.log("Token: ", token);
         return {
