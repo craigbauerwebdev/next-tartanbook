@@ -12,7 +12,7 @@ import VendorFilters from "../../components/VendorFilters";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 function Vendors({session}) {
-    const { user } = useAuth();
+    const { user } = useAuth(); //used for gating
     const { data, error } = useSWR('/api/vendors', fetcher);
     const [types, setVendorTypes] = useState(null);
     const [locations, setLocationTypes] = useState(null);
@@ -85,7 +85,7 @@ function Vendors({session}) {
         );
     }
     console.log("EndIndex: ", endIndex, "Sorted Vendors", sortedVendors.length);
-    //console.table("TotalVendors: ", totalVendors)
+    console.table("TotalVendors: ", totalVendors)
 
     // sets filter state on parent component
     const sortBy = (e, sortType) => {
@@ -101,7 +101,6 @@ function Vendors({session}) {
     firebaseClient();
 
     if(session) {
-    //if (user) {
         return (
             <Fragment>
                 <VendorFilters sortBy={sortBy} type={type} location={location} vendorFilters={types} locationFilters={locations} />
@@ -142,6 +141,7 @@ export async function getServerSideProps(context) {
         console.log("get serverside props try block");
         const cookies = nookies.get(context);
         const token = await verifyIdToken(cookies.token);
+        console.log(token);
         const {uid, email} = token;
         console.log("Token: ", token);
         return {

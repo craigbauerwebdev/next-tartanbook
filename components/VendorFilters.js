@@ -2,6 +2,7 @@
 //import Link from "next/link";
 
 const VendorFilters = ({sortBy, type, location, vendorFilters, locationFilters, placeholderText})=> {
+    console.log(locationFilters);
     return (
         <div className="filters"> 
             <div className="drop-downs">
