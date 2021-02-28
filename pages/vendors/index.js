@@ -8,6 +8,7 @@ import { useAuth } from "../../components/Auth/Auth";
 import VendorCard from '../../components/VendorCard';
 import useSWR from 'swr';
 import VendorFilters from "../../components/VendorFilters";
+//import Cookies from "js-cookie";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -131,19 +132,26 @@ function Vendors({session}) {
 };
 
 export async function getServerSideProps(context) {
+    console.log(context)
     try {
-        console.log("get serverside props try block");
+        //console.log("get serverside props try block");
+        
         const cookies = nookies.get(context);
+        //const cookies = Cookies.get(context);
+
+        //console.log(cookies);
         const token = await verifyIdToken(cookies.token);
         //console.log(token);
         const {uid, email} = token;
-        console.log("Token: ", token);
+        //console.log("Token: ", token);
         return {
-            props: {session: `Email: ${email} IUD: ${uid}`}
+            props: {
+                session: `Email: ${email} IUD: ${uid}`
+            }
         }
     } catch (err) {
-        console.log("get serverside props err block");
-        context.res.writeHead(302, {location: "/login"}); //login //change to welcome page
+        //console.log("get serverside props err block");
+        context.res.writeHead(302, {location: "/"}); //login //change to welcome page
         context.res.end();
         return (
             { props: [] }
